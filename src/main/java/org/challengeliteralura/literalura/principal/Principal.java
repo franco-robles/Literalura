@@ -78,8 +78,9 @@ public class Principal {
     }
     private void buscarlibro() {
         JsonResponse  dato = getDatosLibro();
-        System.out.println("el autor es: " + datoWriter.nombre());
-
+        Libro libro = new Libro(dato.results().getFirst());
+        System.out.println("el autor es: " );
+        System.out.println(libro);
     }
 
 

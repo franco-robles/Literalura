@@ -3,6 +3,7 @@ package org.challengeliteralura.literalura.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,10 +26,12 @@ public class Libro {
 
     public Libro(DatosLibros datos){
         this.titulo = datos.titulo();
-        this.descripcion = datos.descripcion().get(0);
-        this.generos = datos.generos();
+        this.descripcion = datos.descripcion().getFirst();
+        this.generos = datos.generos().getFirst();
         this.derechosDeAutor = datos.derechosDeAutor();
         this.CantidadDeDescargas = datos.CantidadDeDescargas();
+        this.autores = new ArrayList<>();
+        autores.addLast(new Escritor(datos.autores().getFirst())) ;
     }
 
     //getters and setters
@@ -92,5 +95,19 @@ public class Libro {
 
     public void setAutores(List<Escritor> autores) {
         this.autores = autores;
+    }
+
+    @Override
+    public String toString() {
+        return "Libro{" +
+                "id=" + id +
+                ", titulo='" + titulo + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", generos='" + generos + '\'' +
+                ", idiomas='" + idiomas + '\'' +
+                ", derechosDeAutor='" + derechosDeAutor + '\'' +
+                ", CantidadDeDescargas='" + CantidadDeDescargas + '\'' +
+                ", autores=" + autores +
+                '}';
     }
 }

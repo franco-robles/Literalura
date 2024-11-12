@@ -11,10 +11,12 @@ import java.util.List;
 public record DatosLibros(
         @JsonAlias("title") String titulo,
         @JsonAlias("subjects") ArrayList<String> descripcion,
-        @JsonAlias("bookshelves") String generos,
-        @JsonAlias("languages") String idiomas,
+        @JsonAlias("bookshelves") ArrayList<String> generos,
+        @JsonAlias("languages") ArrayList<String> idiomas,
         @JsonAlias("copyright") String derechosDeAutor,
-        @JsonAlias("download_count") String CantidadDeDescargas) {
+        @JsonAlias("download_count") String CantidadDeDescargas,
+        @JsonAlias("authors") List<DatosEscritor> autores)
+        {
 }
  /**
 
