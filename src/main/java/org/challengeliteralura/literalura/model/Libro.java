@@ -1,6 +1,5 @@
 package org.challengeliteralura.literalura.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -17,10 +16,13 @@ public class Libro {
     private String descripcion;
     private String generos;
     private String idiomas;
-    private String derechosDeAutor;
+    private Boolean derechosDeAutor;
     private String CantidadDeDescargas;
     @ManyToMany
+    @JoinTable( name = "libro_escritor", joinColumns = @JoinColumn(name = "libro_id"), inverseJoinColumns = @JoinColumn(name = "escritor_id") )
     private List<Escritor> autores;
+
+
     //Constructors
     public Libro(){}
 
@@ -28,10 +30,15 @@ public class Libro {
         this.titulo = datos.titulo();
         this.descripcion = datos.descripcion().getFirst();
         this.generos = datos.generos().getFirst();
+        this.idiomas = datos.idiomas().getFirst();
         this.derechosDeAutor = datos.derechosDeAutor();
         this.CantidadDeDescargas = datos.CantidadDeDescargas();
         this.autores = new ArrayList<>();
-        autores.addLast(new Escritor(datos.autores().getFirst())) ;
+        Escritor escritor = new Escritor(datos.autores().getFirst()) ;
+        List<Libro> libros = new ArrayList<>();
+        libros.add(this);
+        escritor.setLibros(libros);
+        autores.addLast(escritor) ;
     }
 
     //getters and setters
@@ -73,11 +80,11 @@ public class Libro {
         this.idiomas = idiomas;
     }
 
-    public String getDerechosDeAutor() {
+    public Boolean getDerechosDeAutor() {
         return derechosDeAutor;
     }
 
-    public void setDerechosDeAutor(String derechosDeAutor) {
+    public void setDerechosDeAutor(Boolean derechosDeAutor) {
         this.derechosDeAutor = derechosDeAutor;
     }
 
@@ -105,9 +112,9 @@ public class Libro {
                 ", descripcion='" + descripcion + '\'' +
                 ", generos='" + generos + '\'' +
                 ", idiomas='" + idiomas + '\'' +
-                ", derechosDeAutor='" + derechosDeAutor + '\'' +
+                ", derechosDeAutor=" + derechosDeAutor +
                 ", CantidadDeDescargas='" + CantidadDeDescargas + '\'' +
-                ", autores=" + autores +
+                ", autores="+
                 '}';
     }
 }
